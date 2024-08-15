@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\APIController;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\IzinSakitController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PICController;
@@ -64,8 +65,13 @@ Route::get('/order-management',[OrderController::class, 'index'])->name('marketi
 Route::get('/order-view-create', [OrderController::class, 'viewCreate'])->name('marketing.order.viewCreate');
 Route::post('/order-create', [OrderController::class, 'store'])->name('marketing.order.store');
 Route::get('/fetch-term-agrement/{no_po}', [OrderController::class, 'fetchTermAgrement']);
-Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);
+Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);        
 
 Route::get('/cities', [APIController::class, 'getCities'])->name('cities');
 
+Route::get('/invoice-management',[InvoiceController::class, 'index'])->name('marketing.invoice.index');
+Route::get('/invoice-management-create', [InvoiceController::class, 'viewCreate'])->name('marketing.invoice.create');
+Route::post('/invoice-management-create', [InvoiceController::class, 'store'])->name('invoices.store');
+
+Route::get('/api/get-orders', [InvoiceController::class, 'getOrders'])->name('api.get-orders');
 require __DIR__.'/auth.php';

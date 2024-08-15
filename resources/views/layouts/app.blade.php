@@ -93,14 +93,27 @@
                                 <a href="{{ route('marketing.order.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('marketing.order.index') ? 'bg-gray-700' : '' }}">Order Management</a>
                             </li>
                             <li>
-                                <a href="{{ route('pic.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('pic.index') ? 'bg-gray-700' : '' }}">Invoice Management</a>
+                                <a href="{{ route('marketing.invoice.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('marketing.invoice.index') ? 'bg-gray-700' : '' }}">Invoice Management</a>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <button class="w-full text-left p-4 hover:bg-gray-700 rounded-md flex justify-between items-center" onclick="toggleDropdown('financeDropdown')">
+                        <span>FINANCE</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-300" id="financeDropdownIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div id="financeDropdown" class="{{ request()->routeIs('marketing.po.index') ? '' : 'hidden' }}">
+                        <ul class="pl-6 space-y-1">
+                            <li>
+                                <a href="{{ route('marketing.po.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('marketing.po.index') ? 'bg-gray-700' : '' }}">Payment Finance</a>
                         </ul>
                     </div>
                 </div>
         
                 <!-- Tambahan kode untuk kategori lain dengan pola yang sama -->
-                
                 <!-- Logout Button -->
                 <div class="mt-6">
                     <form action="{{ route('logout') }}" method="POST">
@@ -130,7 +143,7 @@
         
             // Fungsi untuk memeriksa dan membuka dropdown yang telah dibuka sebelumnya
             document.addEventListener('DOMContentLoaded', function() {
-                const dropdownIds = ['hrDropdown', 'rekananDropdown','marketingDropdown']; // Tambahkan id dropdown lain yang perlu diatur
+                const dropdownIds = ['hrDropdown', 'rekananDropdown','marketingDropdown','financeDropdown']; // Tambahkan id dropdown lain yang perlu diatur
                 
                 dropdownIds.forEach(function(id) {
                     if (localStorage.getItem(id) === 'open') {
