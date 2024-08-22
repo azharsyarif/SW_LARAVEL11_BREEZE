@@ -11,32 +11,41 @@ use Illuminate\Support\Facades\Redirect;
 class CutiController extends Controller
 {
     public function index(Request $request)
-{
-    $user = Auth::user();
-
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'Please login to access this page.');
+    {
+        $user = Auth::user();
+    
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please login to access this page.');
+        }
+    
+        $tab = $request->input('tab', 'pending');
+    
+        if ($tab == 'history') {
+            // Fetch approved or rejected leave requests for the current user
+            $cutis = PengajuanCuti::where('karyawan_id', $user->id)
+                ->whereIn('status', ['Diterima', 'Ditolak'])
+                ->with(['approvedBy', 'karyawan'])
+                ->get();
+    
+            // Calculate remaining leave based on the approved requests
+            $remainingLeave = $user->jatah_cuti;
+            foreach ($cutis as $cuti) {
+                if ($cuti->status == 'Diterima') {
+                    $remainingLeave--;
+                }
+            }
+        } else {
+            $cutis = PengajuanCuti::where('karyawan_id', $user->id)
+                ->where('status', 'Pending')
+                ->with(['approvedBy', 'karyawan'])
+                ->get();
+    
+            $remainingLeave = $user->jatah_cuti;
+        }
+    
+        return view('HR.cuti.cutiIndex', compact('cutis', 'user', 'tab', 'remainingLeave'));
     }
-
-    $tab = $request->input('tab', 'pending');
-
-    if ($tab == 'history') {
-        $cutis = PengajuanCuti::where('karyawan_id', $user->id)
-            ->whereIn('status', ['Diterima', 'Ditolak'])
-            ->with(['approvedBy', 'karyawan'])
-            ->get();
-    } else {
-        $cutis = PengajuanCuti::where('karyawan_id', $user->id)
-            ->where('status', 'Pending')
-            ->with(['approvedBy', 'karyawan'])
-            ->get();
-    }
-
-    return view('HR.cuti.cutiIndex', compact('cutis', 'user', 'tab'));
-}
-
-
-
+    
     public function viewCreate()
     {
         $user = Auth::user();

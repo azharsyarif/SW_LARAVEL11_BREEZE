@@ -12,6 +12,9 @@
                 </a>
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white border border-gray-200">
+                        @if($izinSakits->isEmpty())
+                            <p class="text-center text-gray-600 case">Kamu Belum Mengajuan Izin Sakit.</p>
+                        @else
                         <thead>
                             <tr>
                                 <th class="px-4 py-2 border-b-2 border-gray-200 text-left text-sm font-semibold text-gray-700">ID</th>
@@ -24,18 +27,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             @foreach ($izinSakits as $izinsakit)
-                                <tr>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->id }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->karyawan->name }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->tanggal_mulai }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->tanggal_akhir }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->alasan }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->jenis }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->status }}</td>
+                            <tr>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->id }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->karyawan->name }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->tanggal_mulai }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->tanggal_akhir }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->alasan }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->jenis }}</td>
+                                <td class="px-4 py-2 border-b border-gray-200 text-sm text-gray-700">{{ $izinsakit->status }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
+                        @endif
                     </table>
                 </div>
             </div>

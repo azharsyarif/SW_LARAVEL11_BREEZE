@@ -25,13 +25,21 @@
 <body class="font-sans antialiased">
     <div class="flex min-h-screen bg-gray-100">
         <!-- Sidebar -->
-        <aside id="sidebar" class="w-64 bg-gray-800 text-white h-screen fixed top-0 left-0 transform md:translate-x-0 transition-transform duration-300">
+        <aside id="sidebar" class="w-64 bg-gray-800 text-white h-full fixed top-0 left-0 overflow-y-auto"> 
             <div class="p-6">
                 <!-- Application Name -->
                 <div class="mb-6">
                     <h1 class="text-xl font-semibold">{{ config('app.name', 'Laravel') }}</h1>
                 </div>
-        
+
+
+                <div class="zb-4">
+                    <ul class="pl-6 space-y-1">
+                        <li>
+                            <a href="{{ route('dashboard') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('dashboard') ? 'bg-gray-700' : '' }}">Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
                 <!-- HR Section -->
                 <div class="mb-4">
                     <button class="w-full text-left p-4 hover:bg-gray-700 rounded-md flex justify-between items-center" onclick="toggleDropdown('hrDropdown')">
@@ -40,19 +48,22 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="hrDropdown" class="{{ request()->routeIs('user.index') ? '' : 'hidden' }}">
+                    <div id="hrDropdown" class="mt-2 {{ request()->routeIs('user.index') ? '' : 'hidden' }}">
                         <ul class="pl-6 space-y-1">
                             <li>
                                 <a href="{{ route('user.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('user.index') ? 'bg-gray-700' : '' }}">Karyawan</a>
                             </li>
                             <li>
-                                <a href="{{ route('user.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('user.index') ? 'bg-gray-700' : '' }}">Absensi</a>
+                                <a href="{{ route('attendances.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('attendances.index') ? 'bg-gray-700' : '' }}">Absensi</a>
                             </li>
                             <li>
                                 <a href="{{ route('pengajuan.cuti.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('pengajuan.cuti.index') ? 'bg-gray-700' : '' }}">Permohonan Cuti</a>
                             </li>
                             <li>
                                 <a href="{{ route('pengajuan.izin-sakit.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('pengajuan.izin-sakit.index') ? 'bg-gray-700' : '' }}">Permohonan Izin/Sakit</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('approval.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('approval.index') ? 'bg-gray-700' : '' }}">Approval Izin/Sakit/Cuti</a>
                             </li>
                         </ul>
                     </div>
@@ -66,7 +77,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="rekananDropdown" class="{{ request()->routeIs('rekanan.index') ? '' : 'hidden' }}">
+                    <div id="rekananDropdown" class="mt-2 {{ request()->routeIs('rekanan.index') ? '' : 'hidden' }}">
                         <ul class="pl-6 space-y-1">
                             <li>
                                 <a href="{{ route('rekanan.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('rekanan.index') ? 'bg-gray-700' : '' }}">Data Rekanan</a>
@@ -77,6 +88,8 @@
                         </ul>
                     </div>
                 </div>
+        
+                <!-- MARKETING Section -->
                 <div class="mb-4">
                     <button class="w-full text-left p-4 hover:bg-gray-700 rounded-md flex justify-between items-center" onclick="toggleDropdown('marketingDropdown')">
                         <span>MARKETING</span>
@@ -84,7 +97,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="marketingDropdown" class="{{ request()->routeIs('marketing.po.index') ? '' : 'hidden' }}">
+                    <div id="marketingDropdown" class="mt-2 {{ request()->routeIs('marketing.po.index') ? '' : 'hidden' }}">
                         <ul class="pl-6 space-y-1">
                             <li>
                                 <a href="{{ route('marketing.po.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('marketing.po.index') ? 'bg-gray-700' : '' }}">PO Customer</a>
@@ -98,6 +111,8 @@
                         </ul>
                     </div>
                 </div>
+        
+                <!-- FINANCE Section -->
                 <div class="mb-4">
                     <button class="w-full text-left p-4 hover:bg-gray-700 rounded-md flex justify-between items-center" onclick="toggleDropdown('financeDropdown')">
                         <span>FINANCE</span>
@@ -105,15 +120,15 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="financeDropdown" class="{{ request()->routeIs('marketing.po.index') ? '' : 'hidden' }}">
+                    <div id="financeDropdown" class="mt-2 {{ request()->routeIs('approvalPayment-index') ? '' : 'hidden' }}">
                         <ul class="pl-6 space-y-1">
                             <li>
-                                <a href="{{ route('marketing.po.index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('marketing.po.index') ? 'bg-gray-700' : '' }}">Payment Finance</a>
+                                <a href="{{ route('approvalPayment-index') }}" class="block p-4 hover:bg-gray-700 rounded-md {{ request()->routeIs('approvalPayment-index') ? 'bg-gray-700' : '' }}">Payment Finance</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
         
-                <!-- Tambahan kode untuk kategori lain dengan pola yang sama -->
                 <!-- Logout Button -->
                 <div class="mt-6">
                     <form action="{{ route('logout') }}" method="POST">
@@ -143,7 +158,7 @@
         
             // Fungsi untuk memeriksa dan membuka dropdown yang telah dibuka sebelumnya
             document.addEventListener('DOMContentLoaded', function() {
-                const dropdownIds = ['hrDropdown', 'rekananDropdown','marketingDropdown','financeDropdown']; // Tambahkan id dropdown lain yang perlu diatur
+                const dropdownIds = ['hrDropdown', 'rekananDropdown', 'marketingDropdown', 'financeDropdown']; // Tambahkan id dropdown lain yang perlu diatur
                 
                 dropdownIds.forEach(function(id) {
                     if (localStorage.getItem(id) === 'open') {
@@ -153,6 +168,7 @@
                 });
             });
         </script>
+        
         
         
         

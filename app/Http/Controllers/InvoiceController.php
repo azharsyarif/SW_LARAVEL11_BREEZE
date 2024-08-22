@@ -104,14 +104,15 @@ class InvoiceController extends Controller
         $revenue = $this->convertCurrencyToNumeric($request->revenue);
         $netIncome = $this->convertCurrencyToNumeric($request->net_income);
     
-        // Generate no_inv
-        $latestInvoice = Invoice::latest()->first();
-        $latestNoInv = $latestInvoice ? $latestInvoice->no_inv : 'INV000000';
-        $noInv = 'INV-' . str_pad((int) substr($latestNoInv, 3) + 1, 6, '0', STR_PAD_LEFT);
-    
         DB::beginTransaction();
     
         try {
+            // Lock the invoices table to prevent race conditions
+            $latestInvoice = DB::table('invoices')->lockForUpdate()->latest()->first();
+    
+            $latestNoInv = $latestInvoice ? $latestInvoice->no_inv : 'INV-000000';
+            $noInv = 'INV-' . str_pad((int) substr($latestNoInv, 4) + 1, 6, '0', STR_PAD_LEFT);
+    
             $invoice = Invoice::create([
                 'no_po_customer' => $request->no_po_customer,
                 'no_inv' => $noInv,
@@ -135,6 +136,7 @@ class InvoiceController extends Controller
             return redirect()->back()->withErrors('Failed to create invoice: ' . $e->getMessage());
         }
     }
+    
     
     private function convertCurrencyToNumeric($value)
     {

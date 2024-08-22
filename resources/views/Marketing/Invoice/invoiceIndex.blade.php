@@ -50,7 +50,7 @@
                                         <td class="px-4 py-2">@currency($invoice->net_income)</td>
                                         <td class="px-4 py-2">{{ $invoice->created_at->format('Y-m-d') }}</td>
                                     </tr>
-                                    <tr id="order-details-{{ $invoice->id }}" class="collapse bg-gray-50">
+                                    <tr id="order-details-{{ $invoice->id }}" class="hidden bg-gray-50">
                                         <td colspan="10" class="p-4">
                                             <h5 class="font-semibold">Orders:</h5>
                                             <ul class="list-disc list-inside">
@@ -64,7 +64,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
+                            </tbody>                                                  
                         </table>
                     </div>
                 </div>
@@ -79,17 +79,15 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Toggle icon direction on row click
-            document.querySelectorAll('tr[data-toggle="collapse"]').forEach(row => {
-                row.addEventListener('click', function () {
-                    this.querySelector('i').classList.toggle('fa-chevron-down');
-                    this.querySelector('i').classList.toggle('fa-chevron-up');
-                });
-            });
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Toggle collapse
+        $('tr[data-toggle="collapse"]').on('click', function () {
+            var target = $(this).data('target');
+            $(target).toggleClass('hidden');
+            $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
         });
-    </script>
-@endsection
+    });
+</script>

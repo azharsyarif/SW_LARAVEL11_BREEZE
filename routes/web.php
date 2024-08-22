@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\IzinSakitController;
 use App\Http\Controllers\OrderController;
@@ -10,6 +13,9 @@ use App\Http\Controllers\POController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekananController;
 use App\Http\Controllers\UserController;
+use App\Models\PengajuanCuti;
+use App\Models\PengajuanIzinSakit;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,8 +23,15 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+
+    $jumlahPengajuanCuti = PengajuanCuti::where('karyawan_id', $user->id)->count();
+    $jumlahPengajuanIzinSakit = PengajuanIzinSakit::where('karyawan_id', $user->id)->count();
+    $cutiTersisa = $user->jatah_cuti;
+
+    return view('dashboard', compact('jumlahPengajuanCuti', 'jumlahPengajuanIzinSakit', 'cutiTersisa'));
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -74,4 +87,25 @@ Route::get('/invoice-management-create', [InvoiceController::class, 'viewCreate'
 Route::post('/invoice-management-create', [InvoiceController::class, 'store'])->name('invoices.store');
 
 Route::get('/api/get-orders', [InvoiceController::class, 'getOrders'])->name('api.get-orders');
+
+Route::get('/finance/approval-payment', [FinanceController::class, 'indexApprovalPayment'])->name('approvalPayment-index');
+Route::get('/approval-payment/create/{invoice}', [FinanceController::class, 'createApprovalPayment'])->name('approval_payment.create');
+Route::post('/approval-payment/store', [FinanceController::class, 'storeApprovalPayment'])->name('approval_payment.store');
+Route::get('/overdue-invoices', [FinanceController::class, 'overdueInvoices'])->name('overdue.invoices');
+
+// Routes for Attendance management
+Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendances.index');
+Route::get('/attendances/create', [AttendanceController::class, 'create'])->name('attendances.create');
+Route::get('/absensi/create', [AttendanceController::class, 'create'])->name('absensi.create');
+Route::post('/attendances', [AttendanceController::class, 'store'])->name('attendances.store');
+
+// Example route for fetching user department (adjust as needed)
+Route::get('/api/get-user-department', [AttendanceController::class, 'getUserDepartment'])->name('api.get-user-department');
+
+Route::get('/approval-cuti', [ApprovalController::class, 'index'])->name('approval.index');
+Route::post('/cuti/{id}/approve', [ApprovalController::class, 'approveCuti'])->name('cuti.approve');
+Route::post('/cuti/{id}/reject', [ApprovalController::class, 'rejectCuti'])->name('cuti.reject');
+
+Route::post('/izin-sakit/{id}/approve', [ApprovalController::class, 'approveIzinSakit'])->name('izin-sakit.approve');
+Route::post('/izin-sakit/{id}/reject', [ApprovalController::class, 'rejectIzinSakit'])->name('izin-sakit.reject');
 require __DIR__.'/auth.php';
