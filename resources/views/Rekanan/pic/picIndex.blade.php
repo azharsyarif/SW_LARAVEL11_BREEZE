@@ -5,12 +5,12 @@
     <div class="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
         <h1 class="text-2xl font-bold mb-2 md:mb-0">Halaman Data PIC Customer</h1>
         <div class="flex-shrink-0">
-            <a href="{{ route('pic.createView') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            <a href="{{ route('pic.createView') }}" class="bg-blue-700 text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                 Tambah Data PIC Customer
             </a>
         </div>
     </div>
-    
+
     @if(session('success'))
         <div class="bg-green-500 text-white p-4 rounded mb-4">
             {{ session('success') }}
@@ -34,30 +34,32 @@
             <tbody class="divide-y divide-gray-200">
                 @foreach ($rekanans as $rekanan)
                 <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $rekanan->id }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->rekanan->nama_pt}}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->nama}}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->no_tlp }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->posisi }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->cabang }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->created_at }}</td>
-                        <td class="px-6 py-4 text-sm">
-                            <div class="flex space-x-2">
-                                {{-- <a href="{{ route('rekanan.edit', $item->id) }}" class="text-blue-600 hover:text-blue-800">Edit</a> --}}
-                                <form action="{{ route('rekanan.delete', $rekanan->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $rekanan->id }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->rekanan->nama_pt }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->nama }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->no_tlp }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->posisi }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->cabang }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ $rekanan->created_at->format('d-m-Y H:i') }}</td>
+                    <td class="px-6 py-4 text-sm">
+                        <div class="flex space-x-2">
+                            {{-- Uncomment and adjust if you need an Edit button --}}
+                            {{-- <a href="{{ route('rekanan.edit', $rekanan->id) }}" class="text-blue-600 hover:text-blue-800">Edit</a> --}}
+                            <form action="{{ route('rekanan.delete', $rekanan->id) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-800">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
 
+<!-- Modal for KTP Image -->
 <div id="ktpModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen bg-black bg-opacity-50">
         <div class="bg-white p-6 rounded shadow-lg max-w-lg mx-auto">

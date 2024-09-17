@@ -25,6 +25,7 @@
                             </a>
                         </li>
                     </ul>
+
                     <div class="overflow-x-auto">
                         @if($tab == 'pending' && $pengajuan->isEmpty())
                             <p class="text-center text-gray-600">Tidak ada cuti atau izin sakit yang pending.</p>
@@ -43,6 +44,7 @@
                                         <th class="w-2/12 px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">Approved/Rejected By</th>
                                     </tr>
                                 </thead>
+
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @foreach ($pengajuan as $item)
                                         <tr>
@@ -87,11 +89,7 @@
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $item->created_at->format('d-m-Y H:i') }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                @if($item->approved_by)
-                                                    {{ $item->approved_by }}
-                                                @else
-                                                    N/A
-                                                @endif
+                                                {{ $item->approved_by ?? 'N/A' }}
                                             </td>
                                         </tr>
                                     @endforeach

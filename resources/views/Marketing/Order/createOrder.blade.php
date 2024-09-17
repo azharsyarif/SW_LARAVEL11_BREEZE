@@ -237,5 +237,5 @@
         calculateTotalHargaDeal();
     });
 </script>
-    
+
 @endsection

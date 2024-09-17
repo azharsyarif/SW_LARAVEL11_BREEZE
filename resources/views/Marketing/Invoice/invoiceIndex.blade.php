@@ -43,12 +43,15 @@
                                         <td class="px-4 py-2">{{ $invoice->no_inv }}</td>
                                         <td class="px-4 py-2 text-blue-500">Klik untuk melihat No Order <i class="fas fa-chevron-down"></i></td>
                                         <td class="px-4 py-2">{{ $invoice->poCustomer ? $invoice->poCustomer->no_po : 'N/A' }}</td>
-                                        <td class="px-4 py-2">{{ \Carbon\Carbon::parse($invoice->tanggal_kirim_inv)->format('Y-m-d') }}</td>
+                                        <td class="px-4 py-2">{{($invoice->tanggal_kirim_inv)->format('Y-m-d') }}</td>
                                         <td class="px-4 py-2">{{ $invoice->orders->first()->rekanan->term_agrement ?? 'N/A' }} Hari</td>
                                         <td class="px-4 py-2">@currency($invoice->biaya_operasional)</td>
                                         <td class="px-4 py-2">@currency($invoice->revenue)</td>
                                         <td class="px-4 py-2">@currency($invoice->net_income)</td>
                                         <td class="px-4 py-2">{{ $invoice->created_at->format('Y-m-d') }}</td>
+                                        <td>
+                                            <a href="{{ route('marketing.invoice.show', $invoice->id) }}" class="text-blue-600 hover:text-blue-800">Detail</a>
+                                        </td>
                                     </tr>
                                     <tr id="order-details-{{ $invoice->id }}" class="hidden bg-gray-50">
                                         <td colspan="10" class="p-4">
@@ -64,7 +67,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>                                                  
+                            </tbody>
                         </table>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container mx-auto p-4">
+    <!-- Page Header -->
     <div class="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
         <h1 class="text-2xl font-bold mb-2 md:mb-0">Halaman Data Rekanan</h1>
         <div class="flex-shrink-0">
@@ -10,13 +11,15 @@
             </a>
         </div>
     </div>
-    
+
+    <!-- Success Message -->
     @if(session('success'))
         <div class="bg-green-500 text-white p-4 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
+    <!-- Data Table -->
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md" id="dataTable">
             <thead class="bg-gray-100 border-b border-gray-200">
@@ -64,6 +67,7 @@
     </div>
 </div>
 
+<!-- Modal for KTP Image -->
 <div id="ktpModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
     <div class="flex items-center justify-center min-h-screen bg-black bg-opacity-50">
         <div class="bg-white p-6 rounded shadow-lg max-w-lg mx-auto">

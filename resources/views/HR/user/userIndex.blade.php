@@ -10,7 +10,7 @@
             </a>
         </div>
     </div>
-    
+
     @if(session('success'))
         <div class="bg-green-500 text-white p-4 rounded mb-4">
             {{ session('success') }}
@@ -55,8 +55,9 @@
                                 Tidak ada dokumen
                             @endif
                         </td>
-                        <td>
-                            <div class="btn-group" role="group">
+                        <td class="py-2 px-4 border-b">
+                            <div class="flex items-center">
+                                <a href="{{ route('user.edit', $user->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded mr-2">Edit</a>
                                 <form action="{{ route('users.delete', $user->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

@@ -7,6 +7,7 @@
     <form action="{{ route('pengajuan-izin-sakit.store') }}" method="POST" enctype="multipart/form-data" id="izinForm">
         @csrf
 
+        <!-- Jenis Izin Field -->
         <div class="mb-4">
             <label for="jenis" class="block text-sm font-medium text-gray-700">Pilih Jenis Izin</label>
             <select name="jenis" id="jenis" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('jenis') border-red-500 @enderror" required>
@@ -19,38 +20,47 @@
             @enderror
         </div>
 
+        <!-- Form Container for Izin -->
         <div id="izinFormContainer" class="hidden">
+            
+            <!-- Tanggal Mulai Field -->
             <div class="mb-4">
                 <label for="tanggal_mulai" class="block text-sm font-medium text-gray-700">Tanggal Mulai</label>
-                <input type="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('tanggal_mulai') border-red-500 @enderror" id="tanggal_mulai" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" required>
+                <input type="date" id="tanggal_mulai" name="tanggal_mulai" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('tanggal_mulai') border-red-500 @enderror" value="{{ old('tanggal_mulai') }}" required>
                 @error('tanggal_mulai')
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror
             </div>
 
+            <!-- Tanggal Akhir Field -->
             <div class="mb-4">
                 <label for="tanggal_akhir" class="block text-sm font-medium text-gray-700">Tanggal Akhir</label>
-                <input type="date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('tanggal_akhir') border-red-500 @enderror" id="tanggal_akhir" name="tanggal_akhir" value="{{ old('tanggal_akhir') }}" required>
+                <input type="date" id="tanggal_akhir" name="tanggal_akhir" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('tanggal_akhir') border-red-500 @enderror" value="{{ old('tanggal_akhir') }}" required>
                 @error('tanggal_akhir')
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror
             </div>
 
+            <!-- Alasan Field -->
             <div class="mb-4">
                 <label for="alasan" class="block text-sm font-medium text-gray-700">Alasan</label>
-                <textarea class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('alasan') border-red-500 @enderror" id="alasan" name="alasan" rows="3" required>{{ old('alasan') }}</textarea>
+                <textarea id="alasan" name="alasan" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('alasan') border-red-500 @enderror" required>{{ old('alasan') }}</textarea>
                 @error('alasan')
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="mb-4 hidden" id="jatahCutiField">
-                <label for="jatah_cuti" class="block text-sm font-medium text-gray-700">Jatah Cuti Saat Ini: <span id="jatahCutiValue">{{ isset($user) ? $user->jatah_cuti : '-' }}</span></label>
+            <!-- Jatah Cuti Field (Conditional) -->
+            <div id="jatahCutiField" class="mb-4 hidden">
+                <label for="jatah_cuti" class="block text-sm font-medium text-gray-700">Jatah Cuti Saat Ini: 
+                    <span id="jatahCutiValue">{{ isset($user) ? $user->jatah_cuti : '-' }}</span>
+                </label>
             </div>
 
-            <div class="mb-4 hidden" id="buktiDokumenField">
+            <!-- Bukti Dokumen Field (Conditional) -->
+            <div id="buktiDokumenField" class="mb-4 hidden">
                 <label for="bukti_dokumen" class="block text-sm font-medium text-gray-700">Bukti Dokumen (opsional)</label>
-                <input type="file" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('bukti_dokumen') border-red-500 @enderror" id="bukti_dokumen" name="bukti_dokumen">
+                <input type="file" id="bukti_dokumen" name="bukti_dokumen" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('bukti_dokumen') border-red-500 @enderror">
                 @error('bukti_dokumen')
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                 @enderror

@@ -42,7 +42,11 @@ Route::middleware('auth')->group(function () {
 Route::get('/user', [UserController::class, 'userIndex'])->name('user.index');
 Route::get('/user-create', [UserController::class, 'viewCreate'])->name('users.create');
 Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('user.update');
 Route::delete('/user{id}', [UserController::class, 'destroy'])->name('users.delete');
+Route::get('/profile', [UserController::class, 'viewProfile'])->name('profile.index');
+
 
 Route::get('/rekanan', [RekananController::class, 'index'])->name('rekanan.index');
 Route::get('/rekanan-create', [RekananController::class, 'viewCreate'])->name('rekanan.create');
@@ -78,12 +82,15 @@ Route::get('/order-management',[OrderController::class, 'index'])->name('marketi
 Route::get('/order-view-create', [OrderController::class, 'viewCreate'])->name('marketing.order.viewCreate');
 Route::post('/order-create', [OrderController::class, 'store'])->name('marketing.order.store');
 Route::get('/fetch-term-agrement/{no_po}', [OrderController::class, 'fetchTermAgrement']);
-Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);        
+Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);
 
 Route::get('/cities', [APIController::class, 'getCities'])->name('cities');
 
 Route::get('/invoice-management',[InvoiceController::class, 'index'])->name('marketing.invoice.index');
 Route::get('/invoice-management-create', [InvoiceController::class, 'viewCreate'])->name('marketing.invoice.create');
+Route::get('marketing/invoice/{id}/edit', [InvoiceController::class, 'viewEdit'])->name('marketing.invoice.edit');
+Route::get('/invoice/{id}', [InvoiceController::class, 'show'])->name('marketing.invoice.show');
+Route::put('marketing/invoice/{id}', [InvoiceController::class, 'update'])->name('marketing.invoice.update');
 Route::post('/invoice-management-create', [InvoiceController::class, 'store'])->name('invoices.store');
 
 Route::get('/api/get-orders', [InvoiceController::class, 'getOrders'])->name('api.get-orders');

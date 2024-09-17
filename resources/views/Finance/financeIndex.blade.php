@@ -37,7 +37,7 @@
                                         <tr class="cursor-pointer bg-white border-b" data-toggle="collapse" data-target="#invoice-details-{{ $invoice->id }}">
                                             <td class="px-4 py-2 border-b">{{ $invoice->no_inv }}</td>
                                             <td class="px-4 py-2 border-b">{{ $invoice->poCustomer->rekanan->term_agrement ?? 'Tidak Ditemukan' }} Hari</td>
-                                            <td class="px-4 py-2 border-b">{{ $invoice->tanggal_kirim_inv }}</td>
+                                            <td class="px-4 py-2">{{ \Carbon\Carbon::parse($invoice->tanggal_kirim_inv)->format('Y-m-d') }}</td>
                                             <td class="px-4 py-2 border-b">@currency($invoice->net_income)</td>
                                             <td class="px-4 py-2 border-b">
                                                 <span class="bg-yellow-400 text-white text-xs font-semibold py-1 px-2 rounded">Pending</span>

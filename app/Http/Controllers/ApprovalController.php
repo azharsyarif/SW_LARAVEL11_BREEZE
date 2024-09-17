@@ -24,26 +24,27 @@ class ApprovalController extends Controller
         $historyIzinSakitCount = PengajuanIzinSakit::whereIn('status', ['Diterima', 'Ditolak'])->count();
         $historyCount = $historyCutiCount + $historyIzinSakitCount;
     
-        // Fetch the data based on the current tab
         if ($tab == 'pending') {
-            $pengajuanCuti = PengajuanCuti::with('karyawan')->where('status', 'Pending')->get();
-            $pengajuanIzinSakit = PengajuanIzinSakit::with('karyawan')->where('status', 'Pending')->get();
+            $pengajuanCuti = PengajuanCuti::with('karyawan')->where('status', 'Pending')->orderBy('created_at', 'desc')->get();
+            $pengajuanIzinSakit = PengajuanIzinSakit::with('karyawan')->where('status', 'Pending')->orderBy('created_at', 'desc')->get();
         } else {
-            $pengajuanCuti = PengajuanCuti::with('karyawan')->whereIn('status', ['Diterima', 'Ditolak'])->get();
-            $pengajuanIzinSakit = PengajuanIzinSakit::with('karyawan')->whereIn('status', ['Diterima', 'Ditolak'])->get();
+            $pengajuanCuti = PengajuanCuti::with('karyawan')->whereIn('status', ['Diterima', 'Ditolak'])->orderBy('created_at', 'desc')->get();
+            $pengajuanIzinSakit = PengajuanIzinSakit::with('karyawan')->whereIn('status', ['Diterima', 'Ditolak'])->orderBy('created_at', 'desc')->get();
         }
+        
+        $pengajuan = $pengajuanCuti->concat($pengajuanIzinSakit);        
+        
+        // Debugging
+        // dd($pengajuanCuti, $pengajuanIzinSakit);
+        
     
         // Merge the two collections and sort by 'created_at'
-        $pengajuan = $pengajuanCuti->merge($pengajuanIzinSakit)->sortByDesc('created_at');
+        $pengajuan = $pengajuanCuti->concat($pengajuanIzinSakit)->sortByDesc('created_at');
     
         // Pass the data and the tab variable to the view
         return view('HR.approvalCutiIzinSakit', compact('pengajuan', 'tab', 'pendingCount', 'historyCount'));
     }
     
-    
-
-    
-
 
     public function approveCuti($id)
     {
