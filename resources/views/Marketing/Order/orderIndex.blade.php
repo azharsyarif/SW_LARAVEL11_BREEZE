@@ -10,6 +10,14 @@
         <h1 class="text-2xl font-semibold text-gray-800 mb-6">{{ __('Order Management') }}</h1>
 
         <div class="flex justify-center">
+            @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
             <div class="w-full max-w-6xl bg-white shadow-lg rounded-lg">
                 <div class="p-6">
 

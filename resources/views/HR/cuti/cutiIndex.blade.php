@@ -5,6 +5,14 @@
 
     <div class="flex justify-center">
         <div class="w-full lg:w-10/12">
+            @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
             <div class="bg-white shadow-md rounded mb-4">
                 <div class="p-6">
                     <!-- Add Leave Request Button -->
@@ -14,7 +22,7 @@
 
                     <!-- Current Leave Quota -->
                     <p class="block text-sm font-medium text-gray-700 mb-4">
-                        Jatah Cuti Saat Ini: 
+                        Jatah Cuti Saat Ini:
                         <span id="jatahCutiValue">
                             {{ $tab == 'history' ? $remainingLeave : $user->jatah_cuti }}
                         </span>

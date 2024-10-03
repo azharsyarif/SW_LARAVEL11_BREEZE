@@ -82,7 +82,7 @@ class UserController extends Controller
             $user->divisions()->attach($validatedData['divisions']);
         }
 
-        return redirect()->route('user.index')->with('success', 'User created successfully.');
+        return redirect()->route('user.index')->with('success', value: 'User created successfully.');
     }
 
 

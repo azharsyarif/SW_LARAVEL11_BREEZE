@@ -85,7 +85,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="alamat" class="block text-gray-700 font-medium">Address</label>
+                <label for="alamat" class="block text-gray-700 font-medium">Address</label> 
                 <textarea id="alamat" name="alamat" class="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('alamat') }}</textarea>
             </div>
 

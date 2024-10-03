@@ -6,12 +6,15 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\IntruksiJalanController;
 use App\Http\Controllers\IzinSakitController;
+use App\Http\Controllers\KendaraanController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PICController;
 use App\Http\Controllers\POController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RekananController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use App\Models\PengajuanCuti;
 use App\Models\PengajuanIzinSakit;
@@ -70,30 +73,35 @@ Route::get('/pengajuan-izin-sakit', [IzinSakitController::class, 'index'])->name
 Route::get('/create-izin-sakit', [IzinSakitController::class, 'createIndex'])->name('pengajuan.izin-sakit.create');
 Route::post('/pengajuan-izin-sakit', [IzinSakitController::class, 'store'])->name('pengajuan-izin-sakit.store');
 
-Route::get('/po-customer', [POController::class, 'index'])->name('marketing.po.index');
-Route::get('/po-customer-create', [POController::class, 'viewCreate'])->name('marketing.po.create');
-Route::post('/po-customer/store', [POController::class, 'store'])->name('marketing.po.store');
-Route::get('/po-customer/edit/{id}', [POController::class, 'viewEdit'])->name('marketing.po.viewEdit');
-Route::put('/po-customer/edit/{id}', [POController::class, 'update'])->name('marketing.po.update');
-Route::delete('/po-customer/{id}', [POController::class, 'destroy'])->name('marketing.po.destroy');
+
+Route::group(['middleware' => ['division.access:marketing']], function() {
+    Route::get('/po-customer', [POController::class, 'index'])->name('marketing.po.index');
+    Route::get('/po-customer-create', [POController::class, 'viewCreate'])->name('marketing.po.create');
+    Route::post('/po-customer/store', [POController::class, 'store'])->name('marketing.po.store');
+    Route::get('/po-customer/edit/{id}', [POController::class, 'viewEdit'])->name('marketing.po.viewEdit');
+    Route::put('/po-customer/edit/{id}', [POController::class, 'update'])->name('marketing.po.update');
+    Route::delete('/po-customer/{id}', [POController::class, 'destroy'])->name('marketing.po.destroy');
+
+    Route::get('/order-management',[OrderController::class, 'index'])->name('marketing.order.index');
+    Route::get('/order-view-create', [OrderController::class, 'viewCreate'])->name('marketing.order.viewCreate');
+    Route::post('/order-create', [OrderController::class, 'store'])->name('marketing.order.store');
+    Route::get('/fetch-term-agrement/{no_po}', [OrderController::class, 'fetchTermAgrement']);
+    Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);
+
+    Route::get('/cities', [APIController::class, 'getCities'])->name('cities');
+
+    Route::get('/invoice-management',[InvoiceController::class, 'index'])->name('marketing.invoice.index');
+    Route::get('/invoice-management-create', [InvoiceController::class, 'viewCreate'])->name('marketing.invoice.create');
+    Route::get('marketing/invoice/{id}/edit', [InvoiceController::class, 'viewEdit'])->name('marketing.invoice.edit');
+    Route::get('/invoice/{id}', [InvoiceController::class, 'show'])->name('marketing.invoice.show');
+    Route::put('marketing/invoice/{id}', [InvoiceController::class, 'update'])->name('marketing.invoice.update');
+    Route::post('/invoice-management-create', [InvoiceController::class, 'store'])->name('invoices.store');
+
+    Route::get('/api/get-orders', [InvoiceController::class, 'getOrders'])->name('api.get-orders');
+});
 
 
-Route::get('/order-management',[OrderController::class, 'index'])->name('marketing.order.index');
-Route::get('/order-view-create', [OrderController::class, 'viewCreate'])->name('marketing.order.viewCreate');
-Route::post('/order-create', [OrderController::class, 'store'])->name('marketing.order.store');
-Route::get('/fetch-term-agrement/{no_po}', [OrderController::class, 'fetchTermAgrement']);
-Route::get('/fetch-orders/{noPo}', [OrderController::class, 'fetchOrders']);
 
-Route::get('/cities', [APIController::class, 'getCities'])->name('cities');
-
-Route::get('/invoice-management',[InvoiceController::class, 'index'])->name('marketing.invoice.index');
-Route::get('/invoice-management-create', [InvoiceController::class, 'viewCreate'])->name('marketing.invoice.create');
-Route::get('marketing/invoice/{id}/edit', [InvoiceController::class, 'viewEdit'])->name('marketing.invoice.edit');
-Route::get('/invoice/{id}', [InvoiceController::class, 'show'])->name('marketing.invoice.show');
-Route::put('marketing/invoice/{id}', [InvoiceController::class, 'update'])->name('marketing.invoice.update');
-Route::post('/invoice-management-create', [InvoiceController::class, 'store'])->name('invoices.store');
-
-Route::get('/api/get-orders', [InvoiceController::class, 'getOrders'])->name('api.get-orders');
 
 Route::get('/finance/approval-payment', [FinanceController::class, 'indexApprovalPayment'])->name('approvalPayment-index');
 Route::get('/approval-payment/create/{invoice}', [FinanceController::class, 'createApprovalPayment'])->name('approval_payment.create');
@@ -115,4 +123,25 @@ Route::post('/cuti/{id}/reject', [ApprovalController::class, 'rejectCuti'])->nam
 
 Route::post('/izin-sakit/{id}/approve', [ApprovalController::class, 'approveIzinSakit'])->name('izin-sakit.approve');
 Route::post('/izin-sakit/{id}/reject', [ApprovalController::class, 'rejectIzinSakit'])->name('izin-sakit.reject');
+
+Route::get('/intruksi-jalan', [IntruksiJalanController::class, 'instruksiJalanIndex'])->name('intruksiJalan.index');
+Route::get('/op-intruksiJalan/create', [IntruksiJalanController::class, 'viewCreateIntruksiJalan'])->name('intruksiJalan.viewCreate');
+Route::post('/op-intruksiJalan-create', [IntruksiJalanController::class, 'store'])->name('instruksi_jalan.store');
+Route::get('/instruksi-jalan/{id}/edit', [IntruksiJalanController::class, 'edit'])->name('instruksi_jalan.edit');
+Route::put('/instruksi-jalan/{id}', [IntruksiJalanController::class, 'updateIntruksiJalan'])->name('instruksi_jalan.update');
+Route::delete('/instruksi-jalan/{id}/delete', [IntruksiJalanController::class, 'destroyIntuksiJalan'])->name('intruksiJalan.delete');
+
+Route::get('/op-kendaraan', [KendaraanController::class, 'kendaraanIndex'])->name('kendaraan.index');
+Route::get('/op-kendaraan-create', [KendaraanController::class, 'viewCreateKendaraan'])->name('kendaraan.viewCreate');
+Route::post('/op-kendaraan-add', [KendaraanController::class, 'kendaraanStore'])->name('kendaraan.store');
+Route::get('/op-kendaraan/{id}/edit', [KendaraanController::class, 'editKendaraan'])->name('kendaraaan.edit');
+Route::put('/op-kendaraan/{id}', [KendaraanController::class, 'updateKendaraan'])->name('kendaraan.update');
+Route::delete('/op-kendaraan/{id}/delete', [KendaraanController::class, 'destroyKendaraan'])->name('kendaraan.delete');
+
+Route::get('/op-service-kendaraan', [ServiceController::class, 'index'])->name('service.index');
+Route::get('/op-service-kendaraan/create', [ServiceController::class, 'viewCreate'])->name('service.viewCreate');
+Route::post('/op-service-kendaraan/create', [ServiceController::class, 'create'])->name('service.store');
+Route::get('/op-service-kendaraan/{id}/edit', [ServiceController::class, 'viewEditService'])->name('service.viewEdit');
+Route::put('/op-service-kendaraan/{id}', [ServiceController::class, 'updateService'])->name('service.update');
+Route::delete('/op-service-kendaraan/{id}/delete', [ServiceController::class, 'destroyService'])->name('service.delete');
 require __DIR__.'/auth.php';

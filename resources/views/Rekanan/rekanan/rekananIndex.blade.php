@@ -5,6 +5,16 @@
     <!-- Page Header -->
     <div class="mb-4 flex flex-col md:flex-row md:items-center md:justify-between">
         <h1 class="text-2xl font-bold mb-2 md:mb-0">Halaman Data Rekanan</h1>
+
+        @if(session('success'))
+        <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+            {{ session('success') }}
+            <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                &times;
+            </button>
+        </div>
+    @endif
+
         <div class="flex-shrink-0">
             <a href="{{ route('rekanan.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                 Tambah Data Rekanan

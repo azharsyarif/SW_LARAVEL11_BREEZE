@@ -7,6 +7,14 @@
     <div class="flex justify-center">
         <div class="w-full max-w-5xl">
             <!-- Pencarian PO Customer -->
+            @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
             <form action="{{ route('marketing.invoice.index') }}" method="GET" class="mb-4">
                 <div class="mb-4">
                     <label for="search_no_po" class="block text-gray-700">Cari berdasarkan No PO Customer</label>

@@ -6,6 +6,14 @@
         <h1 class="text-3xl font-semibold text-gray-800 mb-6">{{ __('Daftar Data PO Customer') }}</h1>
 
         <!-- Tabel PO Customer -->
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
         <div class="bg-white shadow-md rounded-lg mb-6">
             <div class="px-4 py-4 sm:px-6 flex justify-between items-center">
                 <!-- Tombol Tambah Data -->

@@ -6,13 +6,21 @@
 
     <div class="flex justify-center">
         <div class="w-full lg:w-10/12">
+            @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded mb-4 relative" id="success-alert">
+                {{ session('success') }}
+                <button type="button" class="absolute top-0 right-0 p-2 text-white" onclick="document.getElementById('success-alert').remove();">
+                    &times;
+                </button>
+            </div>
+        @endif
             <div class="bg-white shadow-md rounded mb-4">
                 <div class="p-6">
                     <!-- Add Leave Request Button -->
                     <a href="/create-izin-sakit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
                         Ajukan Izin Sakit
                     </a>
-                    
+
                     <!-- Leave Requests Table -->
                     <div class="overflow-x-auto">
                         @if($izinSakits->isEmpty())

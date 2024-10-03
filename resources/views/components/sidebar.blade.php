@@ -45,6 +45,7 @@
             </div>
 
             <!-- MARKETING Section -->
+            @if(auth()->check() && (auth()->user()->divisions->contains('name', 'marketing') || auth()->user()->role_id == 1))
             <div>
                 <button class="flex items-center justify-between w-full p-3 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700" onclick="toggleDropdown('marketingDropdown')">
                     <span class="text-lg">MARKETING</span>
@@ -58,7 +59,7 @@
                     <a href="{{ route('marketing.invoice.index') }}" class="block p-2 text-gray-300 rounded-md hover:bg-gray-700 {{ request()->routeIs('marketing.invoice.index') ? 'bg-gray-800' : '' }}">Invoice Management</a>
                 </div>
             </div>
-
+            @endif
             <!-- FINANCE Section -->
             <div>
                 <button class="flex items-center justify-between w-full p-3 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700" onclick="toggleDropdown('financeDropdown')">
@@ -69,6 +70,20 @@
                 </button>
                 <div id="financeDropdown" class="mt-2 space-y-2 pl-6 {{ request()->routeIs('approvalPayment-index') ? '' : 'hidden' }}">
                     <a href="{{ route('approvalPayment-index') }}" class="block p-2 text-gray-300 rounded-md hover:bg-gray-700 {{ request()->routeIs('approvalPayment-index') ? 'bg-gray-800' : '' }}">Payment Finance</a>
+                </div>
+            </div>
+            <!-- OPERASIONAL Section -->
+            <div>
+                <button class="flex items-center justify-between w-full p-3 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700" onclick="toggleDropdown('operasionalDropdown')">
+                    <span class="text-lg">OPERASIONAL</span>
+                    <svg id="operasionalDropdownIcon" class="w-5 h-5 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div id="operasionalDropdown" class="mt-2 space-y-2 pl-6 {{ request()->routeIs('intruksiJalan.index') ? '' : 'hidden' }}">
+                    <a href="{{ route('intruksiJalan.index') }}" class="block p-2 text-gray-300 rounded-md hover:bg-gray-700 {{ request()->routeIs('intruksiJalan.index') ? 'bg-gray-800' : '' }}">Intruksi Jalan</a>
+                    <a href="{{ route('kendaraan.index') }}" class="block p-2 text-gray-300 rounded-md hover:bg-gray-700 {{ request()->routeIs('kendaraan.index') ? 'bg-gray-800' : '' }}">Data Kendaraan</a>
+                    <a href="{{ route('service.index') }}" class="block p-2 text-gray-300 rounded-md hover:bg-gray-700 {{ request()->routeIs('service.index') ? 'bg-gray-800' : '' }}">Service Kendaraan</a>
                 </div>
             </div>
 

@@ -3,7 +3,15 @@
 @section('content')
 <div class="container mx-auto px-4">
     <h2 class="text-2xl font-bold mb-4">Detail Invoice</h2>
-
+    <div class="bg-gray-100 shadow rounded-lg p-4 mb-6">
+        <h3 class="text-lg font-medium text-gray-700 mb-4">Invoice Info</h3>
+        <p class="text-sm text-gray-600">
+            <strong>Dibuat:</strong> {{ $invoice->created_at->format('d M Y, H:i') }}
+        </p>
+        <p class="text-sm text-gray-600">
+            <strong>Terakhir di Edit:</strong> {{ $invoice->updated_at->format('d M Y, H:i') }}
+        </p>
+    </div>
     <div class="bg-white shadow rounded-lg p-4 mb-4">
         <h3 class="text-lg font-semibold mb-2">Invoice Details</h3>
         <div class="grid grid-cols-2 gap-4">
